@@ -50560,12 +50560,24 @@ var App = function (_Component) {
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
     _this.searchItem = _this.searchItem.bind(_this);
+    _this.saveItem = _this.saveItem.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
     _this.state = {
       item: "",
-      message: "",
-      user: ""
-
+      user: "",
+      name: "",
+      itemId: "",
+      mediumImage: "",
+      msrp: "",
+      salePrice: "",
+      categoryPath: "",
+      standardShipRate: "",
+      upc: "",
+      isTwoDayShippingEligible: "",
+      miniWindow: "none",
+      quantity: "",
+      frequency: "",
+      shippingRate: ""
     };
     return _this;
   }
@@ -50578,24 +50590,58 @@ var App = function (_Component) {
   }, {
     key: 'searchItem',
     value: function searchItem(e) {
+      var _this2 = this;
+
       e.preventDefault();
       console.log('in here');
       var base = 'http://api.walmartlabs.com/v1/search?';
       var q = 'query=' + this.state.item;
       var idAndKey = '&format=json&apiKey=87yvbnabvmy6mpw6sjttf5th';
       var url = base + q + idAndKey;
+
       _axios2.default.get(url).then(function (response) {
         console.log(response);
+        _this2.setState({
+          name: response.data.items[0].name,
+          itemId: response.data.items[0].itemId,
+          msrp: response.data.items[0].msrp,
+          salePrice: response.data.items[0].salePrice,
+          categoryPath: response.data.items[0].categoryPath,
+          standardShipRate: response.data.items[0].standardShipRate,
+          upc: response.data.items[0].upc,
+          isTwoDayShippingEligible: response.data.items[0].isTwoDayShippingEligible,
+          miniWindow: "block"
+        });
       }).catch(function (error) {
         console.log(error);
       });
     }
   }, {
+    key: 'saveItem',
+    value: function saveItem(e) {
+      e.preventDefault();
+      console.log('in saveItem function');
+      _axios2.default.post('/', { name: this.state.name,
+        itemId: this.state.itemId,
+        msrp: this.state.msrp,
+        salePrice: this.state.salePrice,
+        categoryPath: this.state.categoryPath,
+        standardShipRate: this.state.standardShipRate,
+        upc: this.state.upc,
+        isTwoDayShippingEligible: this.state.isTwoDayShippingEligible,
+        frequency: this.state.frequency,
+        quantity: this.state.quantity,
+        shippingRate: this.state.shippingRate
+      }).then(function (response) {
+        console.log('successful save', response);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
-      console.log(this.state.item);
+      console.log(this.state.name);
       var events = [{
         start: '2017-08-12',
         end: '2017-08-16',
@@ -50624,7 +50670,7 @@ var App = function (_Component) {
                     null,
                     'DEFAULT ROUTE'
                   ),
-                  _react2.default.createElement(_ItemPage2.default, { item: _this2.state.item, searchItem: _this2.searchItem, handleChange: _this2.handleChange })
+                  _react2.default.createElement(_ItemPage2.default, { saveItem: _this3.saveItem, quantity: _this3.state.quantity, frequency: _this3.state.frequency, shippingRate: _this3.state.shippingRate, user: _this3.state.user, miniWindow: _this3.state.miniWindow, item: _this3.state.item, searchItem: _this3.searchItem, handleChange: _this3.handleChange })
                 );
               }
             }),
@@ -66784,27 +66830,47 @@ var ItemPage = function (_Component) {
                 'div',
                 null,
                 _react2.default.createElement(
-                    'h1',
+                    'div',
                     null,
-                    ' ITEM PAGE '
+                    _react2.default.createElement(
+                        'h1',
+                        null,
+                        ' ITEM PAGE '
+                    ),
+                    _react2.default.createElement(
+                        'form',
+                        { onSubmit: this.props.searchItem },
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { id: 'manageLink', to: '/manage' },
+                                'Manage'
+                            )
+                        ),
+                        _react2.default.createElement('input', { name: 'item', value: this.props.item, onChange: this.props.handleChange }),
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            'Submit'
+                        )
+                    )
                 ),
                 _react2.default.createElement(
-                    'form',
-                    { onSubmit: this.props.searchItem },
+                    'div',
+                    { style: { display: this.props.miniWindow } },
                     _react2.default.createElement(
-                        'button',
-                        null,
+                        'form',
+                        { onSubmit: this.props.saveItem },
+                        _react2.default.createElement('input', { placeholder: 'quantity', name: 'quantity', value: this.props.quantity, onChange: this.props.handleChange }),
+                        _react2.default.createElement('input', { placeholder: 'frequency', name: 'frequency', value: this.props.frequency, onChange: this.props.handleChange }),
+                        _react2.default.createElement('input', { placeholder: 'shipping rate', name: 'shippingRate', value: this.props.shippingRate, onChange: this.props.handleChange }),
                         _react2.default.createElement(
-                            _reactRouterDom.Link,
-                            { id: 'manageLink', to: '/manage' },
-                            'Manage'
+                            'button',
+                            null,
+                            'Save'
                         )
-                    ),
-                    _react2.default.createElement('input', { name: 'item', value: this.props.item, onChange: this.props.handleChange }),
-                    _react2.default.createElement(
-                        'button',
-                        null,
-                        'Submit'
                     )
                 )
             );

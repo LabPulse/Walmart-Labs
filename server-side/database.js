@@ -8,8 +8,15 @@ mongoose.connect('mongodb://walmartlabs:walmartlabs1234@ds117929.mlab.com:17929/
 
 const itemSchema = new Schema({
     user: String,
-    message: String,
-    passPhrase: String,
+    name: String,
+    itemId: Number,
+    mediumImage: String,
+    msrp: Number,
+    salePrice: Number,
+    categoryPath: String,
+    standardShipRate: Number,
+    upc: String,
+    isTwoDayShippingEligible: Boolean,
 })
 
 module.exports = mongoose.model('item', itemSchema);
