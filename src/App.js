@@ -5,13 +5,18 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   render() {
     let events = [
       {
-        start: '2017-08-12',
+        start: '2017-08-10',
         end: '2017-08-16',
         rendering: 'background',
-        color: '#00FF00 '
+        color: '#00FF00'
       },
     ]
 
