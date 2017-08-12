@@ -6,7 +6,8 @@
     "fullcalendar": "^3.4.0",
     "moment": "^2.18.1",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2"
   },
   "devDependencies": {
     "axios": "^0.16.2",
@@ -15,6 +16,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "body-parser": "^1.17.2",
+    "cors": "^2.8.4",
     "css-loader": "^0.28.4",
     "express": "^4.15.4",
     "mongoose": "^4.11.6",
