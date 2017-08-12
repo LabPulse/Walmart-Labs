@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://walmartlabs:walmartlabs1234@ds135382.mlab.com:35382/tovia', (err) => {
+mongoose.connect('mongodb://walmartlabs:walmartlabs1234@ds117929.mlab.com:17929/walmartlabs', (err) => {
     if (err) return console.log(err);
     console.log('connected to tovia\'s mlab\'s mongoDB')
 })
