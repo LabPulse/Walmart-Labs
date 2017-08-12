@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 
 import $ from 'jquery';
 import 'moment/min/moment.min.js';
+import axios from 'axios';
 
 import 'fullcalendar/dist/fullcalendar.css';
 import 'fullcalendar/dist/fullcalendar.js';
-
+import Items from './items.js';
 
 class Calendar extends Component {
 
@@ -25,7 +26,20 @@ class Calendar extends Component {
 
 
 class App extends Component {
- render() {
+
+    searchItem($item){
+        axios.get('http://api.walmartlabs.com/v1/search?query='+ $item +'&format=json&apiKey=87yvbnabvmy6mpw6sjttf5th')
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+
+    render() {
 
    let events = [
      {
@@ -40,6 +54,7 @@ class App extends Component {
      <div className="App">
        <h1>IN APP.JS</h1>
        <Calendar events={events} />
+        <Items />
      </div>
    );
  }
