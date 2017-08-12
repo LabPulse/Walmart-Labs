@@ -1,48 +1,49 @@
 import React, { Component } from 'react';
-
-import $ from 'jquery';
-import 'moment/min/moment.min.js';
-
-import 'fullcalendar/dist/fullcalendar.css';
-import 'fullcalendar/dist/fullcalendar.js';
-
-
-class Calendar extends Component {
-
- componentDidMount(){
-   const { calendar } = this.refs;
-
-   $(calendar).fullCalendar({events: this.props.events});
- }
-
- render() {
-   return (
-     <div ref='calendar'></div>
-   );
- }
-
-}
+import Manager from './Manager.js';
+import ItemPage from './ItemPage.js';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 class App extends Component {
- render() {
+  render() {
+    let events = [
+      {
+        start: '2017-08-12',
+        end: '2017-08-16',
+        rendering: 'background',
+        color: '#00FF00 '
+      },
+    ]
 
-   let events = [
-     {
-       start: '2017-01-06',
-       end: '2017-01-08',
-       rendering: 'background',
-       color: '#00FF00 '
-     },
-   ]
-
-   return (
-     <div className="App">
-       <h1>IN APP.JS</h1>
-       <Calendar events={events} />
-     </div>
-   );
- }
+    return (
+      <div className="App">
+        <Router>
+          <div>
+            <Route
+              exact
+              path="/"
+              render={() => (
+                (<div>
+                  <h1>DEFAULT ROUTE</h1>
+                  <ItemPage />
+                </div>)
+              )}
+            />
+            <Route
+              exact
+              path="/manage"
+              render={() => (
+                (<div>
+                  <h1>MANAGE ROUTE</h1>
+                  <Manager />
+                </div>)
+              )}
+            />
+          </div>
+        </Router>
+      </div>
+    );
+  }
 }
 
 export default App;
