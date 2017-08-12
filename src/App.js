@@ -38,6 +38,7 @@ class App extends Component {
 
    return (
      <div className="App">
+       <h1>IN APP.JS</h1>
        <Calendar events={events} />
      </div>
    );
