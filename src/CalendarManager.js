@@ -9,7 +9,6 @@ import 'fullcalendar/dist/fullcalendar.js';
 class Calendar extends Component {
  componentDidMount(){
    const { calendar } = this.refs;
-
    $(calendar).fullCalendar({events: this.props.events});
  }
 

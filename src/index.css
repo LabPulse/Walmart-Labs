@@ -3,3 +3,31 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.userName{
+  position: relative;
+  font-size: 15px;
+}
+
+.title{
+  position: relative;
+  top: 0px;
+}
+.manageButton{
+  position: relative;
+  float: right;
+}
+
+.submitButton{
+  position:relative;
+  top: 30px;
+  left: 0px;
+}
+
+.item{
+  position: relative;
+  top:30px;
+  left: 0px;
+  width: 750px;
+}
+
