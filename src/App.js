@@ -19,6 +19,7 @@ class App extends Component {
             name: "",
             itemId: "",
             mediumImage: "",
+            longDescription: "",
             msrp: "",
             salePrice: "" ,
             categoryPath:"" ,
@@ -56,7 +57,9 @@ class App extends Component {
               standardShipRate:response.data.items[0].standardShipRate ,
               upc: response.data.items[0].upc,
               isTwoDayShippingEligible:response.data.items[0].isTwoDayShippingEligible,
-              miniWindow: "block",
+              mediumImage: response.data.items[0].mediumImage,
+              longDescription: response.data.items[0].longDescription,
+              miniWindow: "flex",
              })
     
             })
@@ -107,7 +110,7 @@ class App extends Component {
               render={() => (
                 (<div>
                   <h1>DEFAULT ROUTE</h1>
-                  <ItemPage saveItem={this.saveItem} quantity={this.state.quantity} frequency={this.state.frequency} shippingRate={this.state.shippingRate} user={this.state.user} miniWindow={this.state.miniWindow} item={this.state.item} searchItem={this.searchItem} handleChange={this.handleChange} />
+                  <ItemPage longDescription={this.state.longDescription} mediumImage={this.state.mediumImage} saveItem={this.saveItem} quantity={this.state.quantity} frequency={this.state.frequency} shippingRate={this.state.shippingRate} user={this.state.user} miniWindow={this.state.miniWindow} item={this.state.item} searchItem={this.searchItem} handleChange={this.handleChange} />
                 </div>)
               )}
             />

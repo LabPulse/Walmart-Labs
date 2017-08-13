@@ -6,16 +6,27 @@ class ItemPage extends Component {
     render() {
 
         return (
-            <div>
-                <div>
-                    <h1> ITEM PAGE </h1>
+            <div className="container">
+                <div className="row text-center">
+                    <h1 className="col-6"> Welcome to Walmart </h1>
+                    <div classID="Menu" className="col-12" style={{height: "100px"}}>
+                        <button><Link id="manageLink" to="/">Home</Link></button>
+                        <button><Link id="manageLink" to="/manage">Manage</Link></button>
+                    </div>
+                    <div classID="ItemDetails" className="col-12 text-center" style={{display: this.props.miniWindow}}>
+                        <div className="col-6">
+                            <img src={this.props.mediumImage}/>
+                        </div>
+                        <div className="col-6">
+                            <p dangerouslySetInnerHTML={{__html: this.props.longDescription}}></p>
+                        </div>
+                    </div>
                     <form onSubmit={this.props.searchItem}>
-                    <button><Link id="manageLink" to="/manage">Manage</Link></button>
-                    <input name="item" value={this.props.item} onChange={this.props.handleChange}/>
+                    What are you looking for <input name="item" placeholder="Tide" value={this.props.item} onChange={this.props.handleChange}/>
                     <button>Submit</button>
                     </form>     
                 </div>
-                <div style={{display: this.props.miniWindow}}>
+                <div className="row" style={{display: this.props.miniWindow}}>
                     <form onSubmit={this.props.saveItem}>
                     <input placeholder="quantity" name="quantity" value={this.props.quantity} onChange={this.props.handleChange}/>
                     <input placeholder="frequency" name="frequency" value={this.props.frequency} onChange={this.props.handleChange}/>

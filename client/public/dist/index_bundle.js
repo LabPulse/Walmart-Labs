@@ -50568,6 +50568,7 @@ var App = function (_Component) {
       name: "",
       itemId: "",
       mediumImage: "",
+      longDescription: "",
       msrp: "",
       salePrice: "",
       categoryPath: "",
@@ -50610,7 +50611,9 @@ var App = function (_Component) {
           standardShipRate: response.data.items[0].standardShipRate,
           upc: response.data.items[0].upc,
           isTwoDayShippingEligible: response.data.items[0].isTwoDayShippingEligible,
-          miniWindow: "block"
+          mediumImage: response.data.items[0].mediumImage,
+          longDescription: response.data.items[0].longDescription,
+          miniWindow: "flex"
         });
       }).catch(function (error) {
         console.log(error);
@@ -50670,7 +50673,7 @@ var App = function (_Component) {
                     null,
                     'DEFAULT ROUTE'
                   ),
-                  _react2.default.createElement(_ItemPage2.default, { saveItem: _this3.saveItem, quantity: _this3.state.quantity, frequency: _this3.state.frequency, shippingRate: _this3.state.shippingRate, user: _this3.state.user, miniWindow: _this3.state.miniWindow, item: _this3.state.item, searchItem: _this3.searchItem, handleChange: _this3.handleChange })
+                  _react2.default.createElement(_ItemPage2.default, { longDescription: _this3.state.longDescription, mediumImage: _this3.state.mediumImage, saveItem: _this3.saveItem, quantity: _this3.state.quantity, frequency: _this3.state.frequency, shippingRate: _this3.state.shippingRate, user: _this3.state.user, miniWindow: _this3.state.miniWindow, item: _this3.state.item, searchItem: _this3.searchItem, handleChange: _this3.handleChange })
                 );
               }
             }),
@@ -66828,18 +66831,27 @@ var ItemPage = function (_Component) {
 
             return _react2.default.createElement(
                 'div',
-                null,
+                { className: 'container' },
                 _react2.default.createElement(
                     'div',
-                    null,
+                    { className: 'row text-center' },
                     _react2.default.createElement(
                         'h1',
-                        null,
-                        ' ITEM PAGE '
+                        { className: 'col-6' },
+                        ' Welcome to Walmart '
                     ),
                     _react2.default.createElement(
-                        'form',
-                        { onSubmit: this.props.searchItem },
+                        'div',
+                        { classID: 'Menu', className: 'col-12', style: { height: "100px" } },
+                        _react2.default.createElement(
+                            'button',
+                            null,
+                            _react2.default.createElement(
+                                _reactRouterDom.Link,
+                                { id: 'manageLink', to: '/' },
+                                'Home'
+                            )
+                        ),
                         _react2.default.createElement(
                             'button',
                             null,
@@ -66848,8 +66860,27 @@ var ItemPage = function (_Component) {
                                 { id: 'manageLink', to: '/manage' },
                                 'Manage'
                             )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { classID: 'ItemDetails', className: 'col-12 text-center', style: { display: this.props.miniWindow } },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-6' },
+                            _react2.default.createElement('img', { src: this.props.mediumImage })
                         ),
-                        _react2.default.createElement('input', { name: 'item', value: this.props.item, onChange: this.props.handleChange }),
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'col-6' },
+                            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.props.longDescription } })
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'form',
+                        { onSubmit: this.props.searchItem },
+                        'What are you looking for ',
+                        _react2.default.createElement('input', { name: 'item', placeholder: 'Tide', value: this.props.item, onChange: this.props.handleChange }),
                         _react2.default.createElement(
                             'button',
                             null,
@@ -66859,7 +66890,7 @@ var ItemPage = function (_Component) {
                 ),
                 _react2.default.createElement(
                     'div',
-                    { style: { display: this.props.miniWindow } },
+                    { className: 'row', style: { display: this.props.miniWindow } },
                     _react2.default.createElement(
                         'form',
                         { onSubmit: this.props.saveItem },
