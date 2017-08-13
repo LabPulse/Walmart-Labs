@@ -70,9 +70,9 @@ class App extends Component {
 
             var checkID = this.itemId;
             this.alreadySubscribed = false;
-
-            data = axios
-            .get('mongodb://walmartlabs:walmartlabs1234@ds117929.mlab.com:17929/walmartlabs')
+/*
+            var data = axios
+            .get('/')
             .then(({ data })=> {
               this.setState({
                 data: data.data.children
@@ -81,10 +81,12 @@ class App extends Component {
             .catch((err)=> {})
 
             for(var i = 0; i < data.length; i++)
-              if(data[i][1] == checkID)
-                this.alreadySubscribed = true;
+              if(data[i][1] == checkID) {
+                console.log('Inside');
+                  this.alreadySubscribed = true;
+              }
 
-
+*/
     }
 
   saveItem(e){
@@ -130,8 +132,7 @@ class App extends Component {
               path="/"
               render={() => (
                 (<div>
-                  <h1>DEFAULT ROUTE</h1>
-                  <ItemPage longDescription={this.state.longDescription} mediumImage={this.state.mediumImage} saveItem={this.saveItem} quantity={this.state.quantity} frequency={this.state.frequency} shippingRate={this.state.shippingRate} user={this.state.user} miniWindow={this.state.miniWindow} item={this.state.item} searchItem={this.searchItem} handleChange={this.handleChange} alreadySubscribed={this.alreadySubscribed} />
+                  <ItemPage longDescription={this.state.longDescription} mediumImage={this.state.mediumImage} salePrice={this.state.salePrice} saveItem={this.saveItem} quantity={this.state.quantity} frequency={this.state.frequency} shippingRate={this.state.shippingRate} user={this.state.user} miniWindow={this.state.miniWindow} item={this.state.item} searchItem={this.searchItem} handleChange={this.handleChange} alreadySubscribed={this.alreadySubscribed} />
                 </div>)
               )}
             />
@@ -140,7 +141,6 @@ class App extends Component {
               path="/manage"
               render={() => (
                 (<div>
-                  <h1>MANAGE ROUTE</h1>
                   <Manager />
                 </div>)
               )}

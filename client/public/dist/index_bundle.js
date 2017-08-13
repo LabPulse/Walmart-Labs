@@ -50406,7 +50406,7 @@ exports = module.exports = __webpack_require__(96)(undefined);
 
 
 // module
-exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif; }\n", ""]);
+exports.push([module.i, "body {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif;\n  background-color: #fafafa; }\n\n.userName {\n  position: relative;\n  font-size: 15px; }\n\n.title {\n  position: relative;\n  top: 0px; }\n\n.manageButton {\n  position: relative;\n  float: right; }\n\n.submitButton {\n  position: relative;\n  top: 30px;\n  left: 0px; }\n\n.item {\n  position: relative;\n  top: 30px;\n  left: 0px;\n  width: 750px; }\n", ""]);
 
 // exports
 
@@ -50578,7 +50578,8 @@ var App = function (_Component) {
       miniWindow: "none",
       quantity: "",
       frequency: "",
-      shippingRate: ""
+      shippingRate: "",
+      alreadySubscribed: ""
     };
     return _this;
   }
@@ -50618,6 +50619,26 @@ var App = function (_Component) {
       }).catch(function (error) {
         console.log(error);
       });
+
+      var checkID = this.itemId;
+      this.alreadySubscribed = false;
+      /*
+                  var data = axios
+                  .get('/')
+                  .then(({ data })=> {
+                    this.setState({
+                      data: data.data.children
+                    });
+                  })
+                  .catch((err)=> {})
+      
+                  for(var i = 0; i < data.length; i++)
+                    if(data[i][1] == checkID) {
+                      console.log('Inside');
+                        this.alreadySubscribed = true;
+                    }
+      
+      */
     }
   }, {
     key: 'saveItem',
@@ -50634,7 +50655,9 @@ var App = function (_Component) {
         isTwoDayShippingEligible: this.state.isTwoDayShippingEligible,
         frequency: this.state.frequency,
         quantity: this.state.quantity,
-        shippingRate: this.state.shippingRate
+        shippingRate: this.state.shippingRate,
+        alreadySubscribed: this.alreadySubscribed
+
       }).then(function (response) {
         console.log('successful save', response);
       });
@@ -50668,12 +50691,7 @@ var App = function (_Component) {
                 return _react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement(
-                    'h1',
-                    null,
-                    'DEFAULT ROUTE'
-                  ),
-                  _react2.default.createElement(_ItemPage2.default, { longDescription: _this3.state.longDescription, mediumImage: _this3.state.mediumImage, saveItem: _this3.saveItem, quantity: _this3.state.quantity, frequency: _this3.state.frequency, shippingRate: _this3.state.shippingRate, user: _this3.state.user, miniWindow: _this3.state.miniWindow, item: _this3.state.item, searchItem: _this3.searchItem, handleChange: _this3.handleChange })
+                  _react2.default.createElement(_ItemPage2.default, { longDescription: _this3.state.longDescription, mediumImage: _this3.state.mediumImage, salePrice: _this3.state.salePrice, saveItem: _this3.saveItem, quantity: _this3.state.quantity, frequency: _this3.state.frequency, shippingRate: _this3.state.shippingRate, user: _this3.state.user, miniWindow: _this3.state.miniWindow, item: _this3.state.item, searchItem: _this3.searchItem, handleChange: _this3.handleChange, alreadySubscribed: _this3.alreadySubscribed })
                 );
               }
             }),
@@ -50684,11 +50702,6 @@ var App = function (_Component) {
                 return _react2.default.createElement(
                   'div',
                   null,
-                  _react2.default.createElement(
-                    'h1',
-                    null,
-                    'MANAGE ROUTE'
-                  ),
                   _react2.default.createElement(_Manager2.default, null)
                 );
               }
@@ -50745,16 +50758,43 @@ var Manager = function (_Component) {
     _createClass(Manager, [{
         key: 'render',
         value: function render() {
-            var events = [{
+            var subs = [{
+                start: '2017-08-10',
+                title: 'Tide',
+                frequency: 5
+            }, {
+                start: '2017-08-11',
+                title: 'Crest',
+                frequency: 7
+            }, {
                 start: '2017-08-12',
-                end: '2017-08-16',
-                rendering: 'background',
-                color: '#00FF00 '
+                title: 'Dove',
+                frequency: 12
+            }, {
+                start: '2017-08-13',
+                title: 'Bounty',
+                frequency: 15
             }];
+            var events = [];
+
+            for (var index = 0; index < subs.length; index++) {
+                for (var jndex = 0; jndex < 5; jndex++) {
+                    var date = new Date(subs[index].start);
+                    if (jndex === 0) {
+                        events.push(subs[index]);
+                    } else {
+                        var clone = JSON.parse(JSON.stringify(subs[index]));
+                        date.setDate(date.getDate() + subs[index].frequency * jndex + 1);
+                        clone.start = date;
+                        events.push(clone);
+                    }
+                }
+            }
+
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(_ListManager2.default, null),
+                _react2.default.createElement(_ListManager2.default, { events: events }),
                 _react2.default.createElement(_CalendarManager2.default, { events: events })
             );
         }
@@ -50809,7 +50849,6 @@ var Calendar = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var calendar = this.refs.calendar;
-
 
       (0, _jquery2.default)(calendar).fullCalendar({ events: this.props.events });
     }
@@ -66755,6 +66794,10 @@ var _react = __webpack_require__(7);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _ListItem = __webpack_require__(384);
+
+var _ListItem2 = _interopRequireDefault(_ListItem);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -66766,15 +66809,28 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var List = function (_Component) {
     _inherits(List, _Component);
 
-    function List() {
+    function List(props) {
         _classCallCheck(this, List);
 
-        return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+
+        _this.events = _this.props.events;
+        return _this;
     }
 
     _createClass(List, [{
         key: 'render',
         value: function render() {
+            var arr = {};
+            for (var index = 0; index < this.events.length; index++) {
+                if (!arr[this.events[index].title]) arr[this.events[index].title] = 0;
+            }
+            var list = [];
+            var items = ['Tide', 'Crest', 'Dove', 'Bounty'];
+
+            for (var _index = 0; _index < Object.keys(arr).length; _index++) {
+                list.push(_react2.default.createElement(_ListItem2.default, { key: items[_index] }));
+            }
 
             return _react2.default.createElement(
                 'div',
@@ -66783,7 +66839,8 @@ var List = function (_Component) {
                     'h1',
                     null,
                     ' LIST '
-                )
+                ),
+                list
             );
         }
     }]);
@@ -66828,83 +66885,165 @@ var ItemPage = function (_Component) {
     _createClass(ItemPage, [{
         key: 'render',
         value: function render() {
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'container' },
-                _react2.default.createElement(
+            if (this.props.alreadySubscribed == false) {
+                return _react2.default.createElement(
                     'div',
-                    { className: 'row text-center' },
-                    _react2.default.createElement(
-                        'h1',
-                        { className: 'col-6' },
-                        ' Welcome to Walmart '
-                    ),
+                    { className: 'container' },
                     _react2.default.createElement(
                         'div',
-                        { classID: 'Menu', className: 'col-12', style: { height: "100px" } },
+                        { className: 'row text-center' },
                         _react2.default.createElement(
-                            'button',
-                            null,
-                            _react2.default.createElement(
-                                _reactRouterDom.Link,
-                                { id: 'manageLink', to: '/' },
-                                'Home'
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'button',
-                            null,
-                            _react2.default.createElement(
-                                _reactRouterDom.Link,
-                                { id: 'manageLink', to: '/manage' },
-                                'Manage'
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        { classID: 'ItemDetails', className: 'col-12 text-center', style: { display: this.props.miniWindow } },
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'col-6' },
-                            _react2.default.createElement('img', { src: this.props.mediumImage })
+                            'h1',
+                            { className: 'col-6', style: { padding: "30px", height: "100px" } },
+                            ' Welcome to Walmart '
                         ),
                         _react2.default.createElement(
                             'div',
-                            { className: 'col-6' },
-                            _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.props.longDescription } })
+                            { classID: 'Menu', className: 'col-12', style: { height: "30px" } },
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.Link,
+                                    { id: 'manageLink', to: '/' },
+                                    'Home'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.Link,
+                                    { id: 'manageLink', to: '/manage' },
+                                    'Manage'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { classID: 'ItemDetails', className: 'col-12 text-center',
+                                style: { display: this.props.miniWindow } },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                _react2.default.createElement('img', { src: this.props.mediumImage })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                'Description: ',
+                                _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.props.longDescription } }),
+                                _react2.default.createElement('br', null),
+                                ' Price: $',
+                                this.props.salePrice
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'form',
+                            { onSubmit: this.props.searchItem },
+                            'What are you looking for ',
+                            _react2.default.createElement('input', { name: 'item', placeholder: 'Tide', value: this.props.item,
+                                onChange: this.props.handleChange }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
                         )
                     ),
                     _react2.default.createElement(
-                        'form',
-                        { onSubmit: this.props.searchItem },
-                        'What are you looking for ',
-                        _react2.default.createElement('input', { name: 'item', placeholder: 'Tide', value: this.props.item, onChange: this.props.handleChange }),
+                        'div',
+                        { className: 'row', style: { display: this.props.miniWindow } },
                         _react2.default.createElement(
-                            'button',
-                            null,
-                            'Submit'
+                            'form',
+                            { onSubmit: this.props.saveItem },
+                            _react2.default.createElement('input', { placeholder: 'quantity', name: 'quantity', value: this.props.quantity,
+                                onChange: this.props.handleChange }),
+                            _react2.default.createElement('input', { placeholder: 'frequency', name: 'frequency', value: this.props.frequency,
+                                onChange: this.props.handleChange }),
+                            _react2.default.createElement('input', { placeholder: 'shipping rate', name: 'shippingRate', value: this.props.shippingRate,
+                                onChange: this.props.handleChange }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Save'
+                            )
                         )
                     )
-                ),
-                _react2.default.createElement(
+                );
+            } else {
+                return _react2.default.createElement(
                     'div',
-                    { className: 'row', style: { display: this.props.miniWindow } },
+                    { className: 'container' },
                     _react2.default.createElement(
-                        'form',
-                        { onSubmit: this.props.saveItem },
-                        _react2.default.createElement('input', { placeholder: 'quantity', name: 'quantity', value: this.props.quantity, onChange: this.props.handleChange }),
-                        _react2.default.createElement('input', { placeholder: 'frequency', name: 'frequency', value: this.props.frequency, onChange: this.props.handleChange }),
-                        _react2.default.createElement('input', { placeholder: 'shipping rate', name: 'shippingRate', value: this.props.shippingRate, onChange: this.props.handleChange }),
+                        'div',
+                        { className: 'row text-center' },
                         _react2.default.createElement(
-                            'button',
+                            'h1',
+                            { className: 'col-6', style: { padding: "30px", height: "100px" } },
+                            ' Welcome to Walmart '
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { classID: 'Menu', className: 'col-12', style: { height: "30px" } },
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.Link,
+                                    { id: 'manageLink', to: '/' },
+                                    'Home'
+                                )
+                            ),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                _react2.default.createElement(
+                                    _reactRouterDom.Link,
+                                    { id: 'manageLink', to: '/manage' },
+                                    'Manage'
+                                )
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'div',
+                            { classID: 'ItemDetails', className: 'col-12 text-center',
+                                style: { display: this.props.miniWindow } },
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                _react2.default.createElement('img', { src: this.props.mediumImage })
+                            ),
+                            _react2.default.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: this.props.longDescription } })
+                            )
+                        ),
+                        _react2.default.createElement(
+                            'form',
+                            { onSubmit: this.props.searchItem },
+                            'What are you looking for ',
+                            _react2.default.createElement('input', { name: 'item', placeholder: 'Tide', value: this.props.item,
+                                onChange: this.props.handleChange }),
+                            _react2.default.createElement(
+                                'button',
+                                null,
+                                'Submit'
+                            )
+                        )
+                    ),
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'row', style: { display: this.props.miniWindow } },
+                        _react2.default.createElement(
+                            'h1',
                             null,
-                            'Save'
+                            'You have already subscribed to this item.'
                         )
                     )
-                )
-            );
+                );
+            }
         }
     }]);
 
@@ -70215,6 +70354,56 @@ function unregister() {
   }
 }
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 384 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(7);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ListItem = function (_Component) {
+    _inherits(ListItem, _Component);
+
+    function ListItem(props) {
+        _classCallCheck(this, ListItem);
+
+        var _this = _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call(this, props));
+
+        _this.key = _this.props.key;
+        return _this;
+    }
+
+    _createClass(ListItem, [{
+        key: 'render',
+        value: function render() {
+            return _react2.default.createElement(
+                'div',
+                null,
+                'Tide',
+                this.key
+            );
+        }
+    }]);
+
+    return ListItem;
+}(_react.Component);
+
+module.exports = ListItem;
 
 /***/ })
 /******/ ]);

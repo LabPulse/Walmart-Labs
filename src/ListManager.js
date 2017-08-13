@@ -4,6 +4,7 @@ import ListItem from './ListItem.js';
 
 class List extends Component {
 
+
     constructor(props){
         super(props);
         this.events = this.props.events;
@@ -15,9 +16,10 @@ class List extends Component {
             if (!arr[this.events[index].title]) arr[this.events[index].title] = 0;
         }
         const list = [];
+        const items = ['Tide','Crest','Dove','Bounty'];
 
         for (let index = 0; index < Object.keys(arr).length; index++) {
-            list.push(<ListItem key={index}/>)
+            list.push(<ListItem key={items[index]}/>)
         }
 
         return (

@@ -10,7 +10,7 @@ class ListItem extends Component {
     render() {
         return (
             <div>
-                <h1> LIST ITEM </h1>
+                Tide
                 { this.key }
             </div>
         );

@@ -43,7 +43,7 @@ class Manager extends Component {
                 }
             }
         }
-        alert(JSON.stringify(events))
+
         return (
 
             <div>
